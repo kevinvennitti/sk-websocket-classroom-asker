@@ -1,0 +1,358 @@
+@font-face {
+    font-family: 'bagnardregular';
+    src: url('../fonts/bagnard-webfont.woff2') format('woff2'),
+         url('../fonts/bagnard-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+html {
+  height:100%;
+  width:100%;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color:  rgba(255, 255, 255, 0);
+}
+
+body {
+  font-family: "bagnardregular", -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  margin:0;
+  padding:0;
+}
+
+.admin-slides {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  right: 0;
+  overflow:auto;
+}
+
+.group-scrollable-container {
+  margin: auto;
+  max-height: 100%;
+  overflow: auto;
+  width:100%;
+  padding: 60px 20px;
+}
+
+.admin-slide {
+  flex: 0 0 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0;
+  height: 100%;
+  overflow: auto;
+  position: relative;
+  margin-right: 0px;
+}
+
+.logs {
+  justify-content: flex-start;
+  padding: 20px;
+}
+
+.group-container {
+  padding: 0 20px;
+}
+
+.group-fields {
+  flex:1;
+  overflow: hidden;
+  display: flex;
+  background: #0019CC;
+  border-radius: 20px;
+  margin-top: 30px;
+}
+.group-actions {
+    flex: 0;
+    padding: 30px;
+}
+
+.group {
+  /* display:flex; */
+  flex-direction: column;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  overflow: auto;
+  padding: 0;
+}
+
+.field {
+  /* flex:1; */
+  background: #ffffff;
+  text-align: center;
+  border-radius: 50px;
+  cursor: text;
+  display:flex;
+  margin-bottom:20px;
+  align-items: center;
+  text-align: center;
+  color: black;
+  padding: 30px 20px;
+  width: 100%;
+  border: solid 5px black;
+  box-shadow: 0 10px 0 black;
+  transition:all 120ms ease-in-out;
+  margin-top:0;
+  position:relative;
+  overflow: visible;
+}
+
+.button-small {
+  background: #F7CE4C;
+  border-radius: 50px;
+  cursor: pointer;
+  text-align: center;
+  color: black;
+  padding: 15px 20px;
+  width: fit-content;
+  border: solid 5px black;
+  box-shadow: 0 5px 0 black;
+  transition:all 120ms ease-in-out;
+  margin-top:0;
+}
+
+[data-add-field] {
+  margin: 0 auto 0px;
+}
+
+
+[data-send-group] {
+  background: #F7CE4C;
+  border-radius: 50px;
+  cursor: pointer;
+  display:flex;
+  align-items: center;
+  text-align: right;
+  color: black;
+  padding: 15px 20px;
+  width: fit-content;
+  font-size: 20px;
+  margin: 0 auto 0px;
+  border: solid 5px black;
+  box-shadow: 0 5px 0 black;
+  transition:all 120ms ease-in-out;
+  margin-top:0;
+}
+
+[data-send-group].is-current {
+  background:#00CC76;
+}
+
+#page-player .field {
+  cursor:pointer;
+}
+
+#page-player .field:active {
+  transform: translateY(7px);
+  box-shadow: 0 3px 0 black;
+  background:#F7CE4C;
+}
+
+.field-value {flex: 1;font-size: 32px;line-height: 1;outline: none;}
+
+.field-remove {
+  position:absolute;
+  right: -5px;
+  top: -5px;
+  font-size: 20px;
+  color: #ffffff;
+  background: #ec4d39;
+  border-radius: 100px;
+  width: 40px;
+  height: 40px;
+  line-height: 32px;
+  border: solid 5px black;
+  cursor:pointer;
+  transition:all 120ms ease-in-out;
+    transform:scale(.9);
+}
+
+.group-remove {
+  position:absolute;
+  right: 5px;
+  top: 15px;
+  text-align: center;
+  font-size: 20px;
+  color: #ffffff;
+  background: #ec4d39;
+  border-radius: 100px;
+  width: 40px;
+  height: 40px;
+  line-height: 32px;
+  border: solid 5px black;
+  cursor:pointer;
+  transition:all 120ms ease-in-out;
+  transform:scale(.9);
+}
+.field-remove:hover,
+.group-remove:hover {
+  transform:scale(1);
+}
+
+#page-player {
+  background: #0b1acc;
+  display:flex;
+  align-items: center;
+  height:100%;
+  width:100%;
+  overflow:auto;
+}
+
+#page-player .group-scrollable-container {
+
+}
+
+#page-player .group {
+  display:flex;
+  align-items: center;
+}
+
+#page-player .field {
+  user-select: none;
+  outline:none;
+}
+
+#page-player #login-container {
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  padding:30px;
+  z-index:100;
+  background:#0019CC;
+  display:flex;
+  align-items:center;
+  transition: all 300ms ease-in-out, background 100ms ease-in-out;
+}
+
+#page-player #login-container.hide {
+  transform:scale(0);
+  user-select: none;
+  background:transparent
+}
+
+#page-player #login-container.wrong input {
+  border-color:#EC4E3A;
+  box-shadow:inset 0 5px 0 #EC4E3A;
+}
+
+#page-player #login-container.wrong label {
+  color:#EC4E3A;
+}
+
+#page-player #login {
+  flex:1;
+  background: #ebeaff;
+  padding:30px;
+  border-radius:20px;
+  width:fit-content;
+  text-align: center;
+  border: solid 5px black;
+  color: #281bcc;
+  box-shadow: 0 15px 0 black;
+}
+
+#page-player #login label {
+  display:block;
+  font-size: 26px;
+  margin-bottom: 25px;
+  color: black;
+}
+
+#page-player #login input {
+  display:block;
+  border: solid 3px #281bcc;
+  padding: 25px 30px;
+  width: 100%;
+  color: #281bcc;
+  border-radius: 60px;
+  font-family: "bagnardregular", -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  text-align: center;
+  font-size: 32px;
+  box-shadow: inset 0 5px 0 #281bcc;
+  background: white;
+}
+
+#page-player #login .button {
+  display:block;
+  margin: 30px auto 0;
+}
+/* ========== */
+
+#page-admin {
+  background:#EC4E3A;
+}
+
+.log-group {
+    background: #0c1bcc;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 10px;
+    color: white;
+}
+
+.log-group-header {display: flex;flex-wrap: wrap;}
+
+.log-group-header-field {
+    display: flex;
+    background: white;
+    border: solid 3px black;
+    box-shadow: 0 4px 0 black;
+    border-radius: 100px;
+    padding: 5px 10px 5px 16px;
+    width: fit-content;
+    margin-right: 5px;
+    align-items: center;
+    color: black;
+    margin-bottom: 7px;
+}
+
+.log-group-header-field-value {}
+
+.log-group-header-field-count {
+    color: #ec4e3b;
+    padding: 3px 8px;
+    background: #f7ce4c;
+    margin-left: 10px;
+    border-radius: 100px;
+}
+
+.log-group-content {
+    margin-top: 5px;
+}
+
+.log {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0px;
+}
+
+.log-pseudo {
+    font-size: 14px;
+}
+
+.log-value {
+    display: flex;
+    background: white;
+    border: solid 2px black;
+    box-shadow: 0 1px 0 black;
+    border-radius: 100px;
+    padding: 3px 8px;
+    width: fit-content;
+    margin-right: 5px;
+    align-items: center;
+    color: black;
+    font-size: 12px;
+}

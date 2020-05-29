@@ -1,0 +1,18 @@
+<div class="admin-slide group-container" data-group-container-id="<%= group.id %>">
+  <div class="group-remove">✕</div>
+  <div class="group-fields">
+    <div class="group-scrollable-container">
+      <div class="group" data-group-id="<%= group.id %>">
+
+        <% group.fields.forEach(function(field) { %>
+          <%- include('../snippets/field', {field:field}); %>
+        <% }); %>
+
+      </div>
+      <div class="button button-small" data-add-field>Ajouter un choix</div>
+    </div>
+  </div>
+  <div class="group-actions">
+    <div class="button" data-send-group>▶ Diffuser</div>
+  </div>
+</div>
