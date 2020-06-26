@@ -37,6 +37,10 @@ app.get('/', function (req, res) {
   res.render('index');
 });
 
+app.get('/live', function (req, res) {
+  res.render('live');
+});
+
 app.get('/admin', function (req, res) {
   res.render('admin', {
     groups: GROUPS
@@ -78,7 +82,10 @@ io.on('connection', function (socket) {
 
     io.sockets.emit('toclient/set/group', {
       group: currentGroup
-    })
+    });
+    io.sockets.emit('tolive/set/group', {
+      group: currentGroup
+    });
   });
 
   // Admin : refresh client
@@ -117,16 +124,6 @@ function setCurrentGroupByGroupId(groupId) {
   })
 }
 
-
-
-// setTimeout(function(){
-//   saveGroupsInJson();
-// }, 15000);
-
-
-
-
-
 function getGroupsFromJson() {
   fs.readFile("data/groups.json", 'utf8', function (err, data) {
     if (err) {
@@ -140,7 +137,6 @@ function getGroupsFromJson() {
     GROUPS = data.groups;
   });
 }
-
 
 
 function saveGroupsInJson() {
