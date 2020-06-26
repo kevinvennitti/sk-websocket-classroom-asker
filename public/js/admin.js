@@ -144,7 +144,7 @@ function sendGroup(group) {
   });
 
   $('[data-send-group]').removeClass('is-current');
-  $(group).find('[data-send-group]').addClass('is-current');
+  $("#diff_"+groupId).addClass('is-current');
 }
 
 

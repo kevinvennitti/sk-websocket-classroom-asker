@@ -3,7 +3,6 @@
   <div class="group-fields">
     <div class="group-scrollable-container">
       <div class="group" data-group-id="<%= group.id %>">
-
         <% group.fields.forEach(function(field) { %>
           <%- include('../snippets/field', {field:field}); %>
         <% }); %>
@@ -13,6 +12,6 @@
     </div>
   </div>
   <div class="group-actions">
-    <div class="button" data-send-group>▶ Diffuser</div>
+    <div class="button" id="diff_<%= group.id %>" data-send-group>▶ Diffuser</div>
   </div>
 </div>
