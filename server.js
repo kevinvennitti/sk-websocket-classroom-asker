@@ -2,7 +2,6 @@
 @TODO :
 - afficher la question dans chaque groupe
 - distinguer les réponses multiples des réponses uniques
-- faire un front avec que les réponses en live
 - page récap des questions/réponses
 */
 
@@ -110,6 +109,7 @@ io.on('connection', function (socket) {
     responses.data[respIndex] = data;
     respIndex++;
     io.sockets.emit('toadmin/userChoice', data);
+    io.sockets.emit('tolive/userChoice', data);
   });
 });
 
