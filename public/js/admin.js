@@ -39,7 +39,6 @@ $(function(){
 
   $(document).on('click', '[data-send-group]', function(){
     const group = $(this).closest('.group-container').find('.group');
-
     saveAllGroups();
     sendGroup(group);
     addLogGroup(group);
@@ -70,10 +69,6 @@ $(function(){
     saveAllGroups();
   });
 });
-
-
-
-
 
 function addLogGroup(group) {
   let logGroup = $('<div class="log-group"></div>');
@@ -144,7 +139,7 @@ function sendGroup(group) {
   });
 
   $('[data-send-group]').removeClass('is-current');
-  $(group).find('[data-send-group]').addClass('is-current');
+  $("#diff_"+groupId).addClass('is-current');
 }
 
 

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>sk-websocket-classroom-asker</title>
+    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width, user-scalable=no">
+
+
+    <script src="lib/jquery-3.4.1.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script type="text/javascript">
+      var socket = io.connect();
+    </script>
+
+    <script src="js/live.js"></script>
+
+  </head>
+
+  <body id="page-admin">
+
+    <div id="admin-client-view-state"></div>
+
+    <div id="admin-controls" data-content-scope>
+
+      <div class="admin-slides">
+
+        <div class="admin-slide logs">
+        </div>
+
+        <div class="admin-slide">
+        </div>
+
+      </div>
+
+    </div>
+
+  </body>
+</html>
