@@ -87,7 +87,6 @@ io.on('connection', function (socket) {
 
     setCurrentGroupByGroupId(data.groupId);
 
-    console.log(currentGroup);
     responses = {groupId : currentGroup.id, data : [] };
     respIndex = 0;
 
@@ -101,6 +100,11 @@ io.on('connection', function (socket) {
 
   // Setting group of students to be evaluated
   socket.on('admin/set/studentGroupName', function (data) {
+    // If there was responses sate to Json file
+    if (responses.data.length > 0) {
+      saveResponsesInJson();
+    }
+    console.log("New project group set : ", data.groupName);
     groupName = data.groupName;
   });
 
