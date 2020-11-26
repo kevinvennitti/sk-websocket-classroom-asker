@@ -26,12 +26,16 @@ $(function(){
 
 
   $(document).on('click', '.field', function(){
-    const value = $(this).find('.field-value').text().trim();
 
-    socket.emit('toserver/userChoice', {
-      value: value,
-      pseudo: $('[name="pseudo"]').val()
-    })
+    if ( !$(this).hasClass('button-disabled') ) {
+      const value = $(this).find('.field-value').text().trim();
+      socket.emit('toserver/userChoice', {
+        value: value,
+        pseudo: $('[name="pseudo"]').val()
+      });
+     disableVote();
+    }
+
   });
 
 
@@ -51,5 +55,14 @@ $(function(){
         fieldDOM.appendTo($('.group'));
       }
     });
+    enableVote();
+  }
+
+  function disableVote() {
+    $('.field').addClass('button-disabled');
+  }
+
+  function enableVote() {
+    $('.field').removeClass('button-disabled');
   }
 });

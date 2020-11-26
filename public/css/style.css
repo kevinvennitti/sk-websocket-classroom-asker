@@ -143,7 +143,6 @@ body {
   margin: 0 auto 0px;
 }
 
-
 [data-send-group] {
   background: #F7CE4C;
   border-radius: 50px;
@@ -160,6 +159,11 @@ body {
   box-shadow: 0 5px 0 black;
   transition:all 120ms ease-in-out;
   margin-top:0;
+}
+
+.button-disabled {
+  cursor: not-allowed;
+  background: gray;
 }
 
 [data-send-group].is-current {

@@ -16,6 +16,12 @@ $(function(){
     const prop = $(this).data('prop') || null;
     const value = $(this).data('value') || null;
 
+    // The current group is not anymore visible from client
+    // So remove the "published class"
+    if (emit == 'client/clear') {
+      $('[data-send-group]').removeClass('is-current');
+    }
+
     socket.emit('admin/'+emit, {
       [prop]: value
     });

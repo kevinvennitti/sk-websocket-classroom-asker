@@ -14,11 +14,11 @@
         },
         {
           "type": "button",
-          "value": "quelconque"
+          "value": "bof"
         },
         {
           "type": "button",
-          "value": "peut faire meuh"
+          "value": "peut faire mieux"
         }
       ]
     },
@@ -28,7 +28,7 @@
       "fields": [
         {
           "type": "button",
-          "value": "Encore ?!"
+          "value": "Encore ?"
         },
         {
           "type": "button",
