@@ -2,7 +2,9 @@
 @TODO :
 - afficher la question dans chaque groupe
 - distinguer les réponses multiples des réponses uniques
-- page récap des questions/réponses
+  => Pour l'instant c'est bloqué sur des réponses uniques
+  Peut-être faut-il ajouter un paramètre sur la question pour déterminer si la réponse peut êêtre multiple ou pas.
+- page récap des questions/réponses avec des stats ?
 */
 
 const express = require('express');
