@@ -20,9 +20,15 @@ $(function(){
 // The same function as above, but working with a JSON object, not a DOM
 // This is for /live UI.
 function addLogGroupFromJSON(group) {
+  console.log(group);
   let logGroup = $('<div class="log-group"></div>');
   let logGroupHeader = $('<div class="log-group-header"></div>');
-  
+
+  // question
+  let logGroupQuestion = $('<div class="log-group-header-question"><div class="log-group-header-question-value">' + group.question + '</div></div>');
+  logGroupHeader.append(logGroupQuestion);
+
+  // Fields
   group.fields.forEach(function(field){
     let value = field.value.trim();
 

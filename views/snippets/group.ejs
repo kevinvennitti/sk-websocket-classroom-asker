@@ -3,6 +3,9 @@
   <div class="group-fields">
     <div class="group-scrollable-container">
       <div class="group" data-group-id="<%= group.id %>">
+        <%- include('../snippets/question', {question:group.question}); %>
+        <br>
+        <br>
         <% group.fields.forEach(function(field) { %>
           <%- include('../snippets/field', {field:field}); %>
         <% }); %>

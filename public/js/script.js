@@ -12,7 +12,6 @@ $(function(){
 
   socket.on('toclient/set/group', function (data) {
     currentGroup = data.group;
-    console.log(currentGroup);
     setGroup();
   });
 
@@ -36,11 +35,13 @@ $(function(){
   });
 
 
-
   function setGroup() {
     if (currentGroup.fields == undefined) return false;
 
     $('.group').empty();
+    let questionDOM = $('#clones .question').clone();
+    questionDOM.find('.question-value').text(currentGroup.question);
+    questionDOM.appendTo($('.group'));
 
     currentGroup.fields.forEach(function(field){
       // TODO : compute snippet/field

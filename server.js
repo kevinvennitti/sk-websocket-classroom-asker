@@ -31,7 +31,7 @@ let GROUPS = [];
 getGroupsFromJson();
 
 let currentGroup = [];
-let responses = {groupId : 0, data : [] };
+let responses = {groupId : 0, question : "", data : [] };
 let respIndex = 0;
 
 server.listen(3000);
@@ -89,7 +89,7 @@ io.on('connection', function (socket) {
 
     setCurrentGroupByGroupId(data.groupId);
 
-    responses = {groupId : currentGroup.id, data : [] };
+    responses = {groupId : currentGroup.id, question: currentGroup.question, data : [] };
     respIndex = 0;
 
     io.sockets.emit('toclient/set/group', {
@@ -108,6 +108,8 @@ io.on('connection', function (socket) {
     }
     console.log("New project group set : ", data.groupName);
     groupName = data.groupName;
+    // Clear clients when changing
+    io.sockets.emit('toclient/clear');
   });
 
   // Admin : refresh client
@@ -147,7 +149,6 @@ io.on('connection', function (socket) {
 
 function setCurrentGroupByGroupId(groupId) {
   GROUPS.forEach(group => {
-    console.log(group);
     if (group.id == groupId) {
       currentGroup = group;
       return;
@@ -163,8 +164,6 @@ function getGroupsFromJson() {
     }
 
     data = JSON.parse(data);
-    console.log(data);
-
     GROUPS = data.groups;
   });
 }
@@ -172,8 +171,6 @@ function getGroupsFromJson() {
 
 function saveGroupsInJson() {
   let json = JSON.stringify({ "groups": GROUPS }, null, 2);
-
-  console.log(json);
 
   fs.writeFile("data/groups.json", json, 'utf8', function (err) {
     if (err) {
@@ -189,8 +186,6 @@ function saveGroupsInJson() {
 function saveResponsesInJson() {
   let filename = "data/" + groupName + "-" + responses.groupId + ".json";
   let json = JSON.stringify(responses, null, 2);
-
-  console.log(json);
 
   fs.writeFile(filename, json, 'utf8', function (err) {
     if (err) {

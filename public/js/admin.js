@@ -24,6 +24,7 @@ $(function(){
   $(document).on('click', '[data-add-group]', function(){
     const newGroup = {
       id: Date.now(),
+      question: "Pourquoi ?",
       fields: [
         { type: "button", value: "Encore ?!" },
         { type: "button", value: "Eh oui…!" }
@@ -81,6 +82,9 @@ $(function(){
 function addLogGroup(group) {
   let logGroup = $('<div class="log-group"></div>');
   let logGroupHeader = $('<div class="log-group-header"></div>');
+  let question = group.find('.question-value').text().trim();
+  let logGroupQuestion = $('<div class="log-group-header-question"><div class="log-group-header-question-value">' + question + '</div></div>');
+  logGroupHeader.append(logGroupQuestion);
 
   group.find('.field').each(function(){
     let value = $(this).find('.field-value').text().trim();
@@ -150,14 +154,6 @@ function sendGroup(group) {
   $("#diff_"+groupId).addClass('is-current');
 }
 
-
-
-
-
-
-
-
-
 function saveAllGroups() {
   const groups = $('[data-content-scope] .group');
 
@@ -166,9 +162,11 @@ function saveAllGroups() {
   groups.each(function(){
     const group = $(this);
     const fields = group.find('.field');
+    const question = group.find('.question-value').text().trim();
 
     let groupData = {
       id: group.data('group-id'),
+      question: question,
       fields: []
     };
 

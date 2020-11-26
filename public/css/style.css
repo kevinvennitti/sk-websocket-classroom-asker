@@ -86,7 +86,7 @@ body {
   padding: 0;
 }
 
-.field {
+.field, .question {
   /* flex:1; */
   background: #ffffff;
   text-align: center;
@@ -105,6 +105,13 @@ body {
   margin-top:0;
   position:relative;
   overflow: visible;
+}
+
+.question {
+  padding: 10px 10px;
+  margin-bottom:30px;
+  background: gray;
+  color: white;
 }
 
 .button-small {
@@ -170,6 +177,8 @@ body {
 }
 
 .field-value {flex: 1;font-size: 32px;line-height: 1;outline: none;}
+
+.question-value {flex: 1;font-size: 32px;line-height: 1;outline: none;}
 
 .field-remove {
   position:absolute;
@@ -315,7 +324,7 @@ body {
 
 .log-group-header {display: flex;flex-wrap: wrap;}
 
-.log-group-header-field {
+.log-group-header-field, .log-group-header-question {
     display: flex;
     background: white;
     border: solid 3px black;
@@ -328,6 +337,14 @@ body {
     color: black;
     margin-bottom: 7px;
 }
+
+.log-group-header-question {
+      color: white;
+      background: gray;
+      width: 100%;
+}
+
+.log-group-header-question-value {}
 
 .log-group-header-field-value {}
 

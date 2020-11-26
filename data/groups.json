@@ -1,28 +1,30 @@
 {
   "groups": [
     {
-      "id": 1606379497537,
+      "id": 1606384676912,
+      "question": "Originalité de la présentation",
       "fields": [
         {
           "type": "button",
-          "value": "Original"
+          "value": "très originale"
         },
         {
           "type": "button",
-          "value": "Pas mal"
+          "value": "pas si mal"
         },
         {
           "type": "button",
-          "value": "Quelconque"
+          "value": "quelconque"
         },
         {
           "type": "button",
-          "value": "Peut mieux faire"
+          "value": "peut faire meuh"
         }
       ]
     },
     {
-      "id": 1606381334803,
+      "id": 1606385248521,
+      "question": "Pour qui ?",
       "fields": [
         {
           "type": "button",
