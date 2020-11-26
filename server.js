@@ -7,6 +7,8 @@
 - page récap des questions/réponses avec des stats ?
 */
 
+const GLOBAL_CONFIG = require('./config/config.js');
+
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -15,14 +17,9 @@ const io = require('socket.io')(server);
 const fs = require('fs');
 const bodyParser = require('body-parser')
 
-// List of student project group
-// @TODO : put this in a config file.
- const studentsGroupList = ["groupe-C1", "groupe-C2", "groupe-C3", "groupe-C4", "groupe-C5", "groupe-C6", 
- "groupe-D1", "groupe-D2", "groupe-D3", "groupe-D4", "groupe-D5", "groupe-D6" ];
-
 // the selected group of student (to be evaluated by peers)
 // By default the first element of the list above.
-let groupName = studentsGroupList[0];
+let groupName = GLOBAL_CONFIG.studentsGroupList[0];
 
 let userList = [];
 
@@ -41,9 +38,6 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-
-
-
 app.get('/', function (req, res) {
   res.render('index');
 });
@@ -55,7 +49,7 @@ app.get('/live', function (req, res) {
 app.get('/admin', function (req, res) {
   res.render('admin', {
     groups: GROUPS,
-    studentsGroupList: studentsGroupList
+    studentsGroupList: GLOBAL_CONFIG.studentsGroupList
   });
 });
 
