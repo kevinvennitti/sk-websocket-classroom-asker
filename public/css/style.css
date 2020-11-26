@@ -121,6 +121,17 @@ body {
   margin-top:0;
 }
 
+.button-small select {
+  background: #F7CE4C;
+  cursor: pointer;
+  text-align: center;
+  color: black;
+  padding: 5px 5px;
+  border: solid 1px black;
+  box-shadow: 0 1px 0 black;
+  margin-top:0;
+ }
+
 [data-add-field] {
   margin: 0 auto 0px;
 }

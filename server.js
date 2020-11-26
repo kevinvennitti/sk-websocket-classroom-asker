@@ -13,7 +13,17 @@ const io = require('socket.io')(server);
 const fs = require('fs');
 const bodyParser = require('body-parser')
 
-const groupName = "groupe-C";
+// List of student project group
+// @TODO : put this in a config file.
+ const studentsGroupList = ["groupe-C1", "groupe-C2", "groupe-C3", "groupe-C4", "groupe-C5", "groupe-C6", 
+ "groupe-D1", "groupe-D2", "groupe-D3", "groupe-D4", "groupe-D5", "groupe-D6" ];
+
+// the selected group of student (to be evaluated by peers)
+// By default the first element of the list above.
+let groupName = studentsGroupList[0];
+
+let userList = [];
+
 let GROUPS = [];
 
 getGroupsFromJson();
@@ -42,7 +52,8 @@ app.get('/live', function (req, res) {
 
 app.get('/admin', function (req, res) {
   res.render('admin', {
-    groups: GROUPS
+    groups: GROUPS,
+    studentsGroupList: studentsGroupList
   });
 });
 
@@ -60,7 +71,8 @@ app.post('/snippet/field', function (req, res) {
 
 io.on('connection', function (socket) {
   console.log('New client connected', socket.id);
-  console.log(currentGroup);
+  // keep this connection in a list
+  userList.push(socket.id);
 
   socket.emit('toclient/set/group', {
     group: currentGroup
@@ -87,6 +99,11 @@ io.on('connection', function (socket) {
     });
   });
 
+  // Setting group of students to be evaluated
+  socket.on('admin/set/studentGroupName', function (data) {
+    groupName = data.groupName;
+  });
+
   // Admin : refresh client
   socket.on('admin/client/refresh', function (data) {
     io.sockets.emit('toclient/refresh');
@@ -103,14 +120,22 @@ io.on('connection', function (socket) {
     saveGroupsInJson();
   });
 
-
   // Client : user choice
   socket.on('toserver/userChoice', function (data) {
-    responses.data[respIndex] = data;
-    respIndex++;
-    io.sockets.emit('toadmin/userChoice', data);
-    io.sockets.emit('tolive/userChoice', data);
+    data.userId = socket.id;
+    let alreadySent = responses.data.filter(r => r.userId == data.userId);
+    // Only on vote per User.
+    if ( alreadySent[0] == undefined ) {
+      responses.data[respIndex] = data;
+      respIndex++;
+      io.sockets.emit('toadmin/userChoice', data);
+      io.sockets.emit('tolive/userChoice', data);
+    } 
+    //else {
+    //  console.log("This user has already voted !");
+    //}
   });
+
 });
 
 

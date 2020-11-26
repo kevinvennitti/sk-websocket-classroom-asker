@@ -68,6 +68,14 @@ $(function(){
 
     saveAllGroups();
   });
+
+  // Select student group name
+  $(document).on('click', '#studentGroupName', function(){
+    var groupName = $(this).val();
+    socket.emit('admin/set/studentGroupName', {
+      groupName: groupName
+    });  
+  });
 });
 
 function addLogGroup(group) {
@@ -180,9 +188,10 @@ function saveAllGroups() {
     groupsData.push(groupData);
   });
 
-  console.log(groupsData);
-
+  let studentGroupName = $('#studentGroupName').val();
+    console.log(studentGroupName);
   socket.emit('admin/saveAllGroups', {
-    groups: groupsData
+    groups: groupsData, 
+    studentGroupName: studentGroupName
   });
 }
