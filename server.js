@@ -1,10 +1,10 @@
 /*
 @TODO :
-- afficher la question dans chaque groupe
 - distinguer les réponses multiples des réponses uniques
   => Pour l'instant c'est bloqué sur des réponses uniques
   Peut-être faut-il ajouter un paramètre sur la question pour déterminer si la réponse peut êêtre multiple ou pas.
 - page récap des questions/réponses avec des stats ?
+- Assurer la cohérence entre pseudo et socketId
 */
 
 const GLOBAL_CONFIG = require('./config/config.js');
@@ -68,7 +68,9 @@ app.post('/snippet/field', function (req, res) {
 io.on('connection', function (socket) {
   console.log('New client connected', socket.id);
   // keep this connection in a list
+//  userList.push({id: socket.id, pseudo: ""});
   userList.push(socket.id);
+  console.log(userList);
 
   socket.emit('toclient/set/group', {
     group: currentGroup
@@ -133,13 +135,49 @@ io.on('connection', function (socket) {
       io.sockets.emit('toadmin/userChoice', data);
       io.sockets.emit('tolive/userChoice', data);
     } 
-    //else {
-    //  console.log("This user has already voted !");
-    //}
   });
 
-});
+  // Client pseudo
+  /*
+  socket.on('toserver/userPseudo', function(data) {
+    let userset = false;
+    // verify that the user already exists
+    userList.forEach(function(u) {
+      if (u.pseudo == data.pseudo) {
+        u.id = socket.id;
+        console.log(data.pseudo + " is back ! ("+socket.id+")");
+        userset = true;
+        return false;
+      }
+    });
+    if (!userset) {
+      userList.forEach(function(u) {
+        if (u.id == socket.id) {
+          u.pseudo = data.pseudo;
+          console.log(data.pseudo + " is a new user ! ("+socket.id+")");
+          return false;
+        }
+      });
+    }
+    console.log(userList);
+  });
 
+  socket.on('disconnect', function() {    
+    userList.forEach(function(u) {
+      // clean array
+      if (u.id == "" && u.pseudo == ""){
+
+      }
+      if (u.id == socket.id) {
+        u.id = "";
+        console.log(u.pseudo + " has gone !");
+        return false;
+      }
+    });
+    console.log(userList);
+  });
+  */
+});
 
 function setCurrentGroupByGroupId(groupId) {
   GROUPS.forEach(group => {

@@ -2,7 +2,7 @@
   "groups": [
     {
       "id": 1606384676912,
-      "question": "Originalité de la présentation",
+      "question": "Originalité du support de présentation",
       "fields": [
         {
           "type": "button",
@@ -10,29 +10,103 @@
         },
         {
           "type": "button",
-          "value": "pas si mal"
+          "value": "bien joué !"
         },
         {
           "type": "button",
-          "value": "bof"
+          "value": "bof, peut mieux faire"
         },
         {
           "type": "button",
-          "value": "peut faire mieux"
+          "value": "so borring !"
         }
       ]
     },
     {
-      "id": 1606385248521,
-      "question": "Pour qui ?",
+      "id": 1606400868398,
+      "question": "Vous trouvez la présentation plutôt...",
       "fields": [
         {
           "type": "button",
-          "value": "Encore ?"
+          "value": "dynamique"
         },
         {
           "type": "button",
-          "value": "Eh oui…!"
+          "value": "fluide"
+        },
+        {
+          "type": "button",
+          "value": "poussive"
+        },
+        {
+          "type": "button",
+          "value": "soporifique"
+        }
+      ]
+    },
+    {
+      "id": 1606400567306,
+      "question": "La problématique exprimée vous paraît...",
+      "fields": [
+        {
+          "type": "button",
+          "value": "limpide"
+        },
+        {
+          "type": "button",
+          "value": "claire"
+        },
+        {
+          "type": "button",
+          "value": "brumeuse"
+        },
+        {
+          "type": "button",
+          "value": "absconse"
+        }
+      ]
+    },
+    {
+      "id": 1606401123577,
+      "question": "Comment trouvez-vous l'enquête ?",
+      "fields": [
+        {
+          "type": "button",
+          "value": "rondement menée"
+        },
+        {
+          "type": "button",
+          "value": "enrichissante"
+        },
+        {
+          "type": "button",
+          "value": "la case est cochée"
+        },
+        {
+          "type": "button",
+          "value": "un peu BFMTV"
+        }
+      ]
+    },
+    {
+      "id": 1606401388036,
+      "question": "Le contenu vous semble",
+      "fields": [
+        {
+          "type": "button",
+          "value": "amazing !"
+        },
+        {
+          "type": "button",
+          "value": "étoffé et dense"
+        },
+        {
+          "type": "button",
+          "value": "satisfaisant"
+        },
+        {
+          "type": "button",
+          "value": "un peu light sur les bords"
         }
       ]
     }

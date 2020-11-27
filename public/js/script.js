@@ -7,6 +7,8 @@ $(function(){
       $('#login-container').addClass('wrong');
     } else {
       $('#login-container').removeClass('wrong').addClass('hide');
+      // Send pseudo to server, to associate with socketId
+      //socket.emit('toserver/userPseudo', { pseudo: $('[name="pseudo"]').val() });
     }
   });
 
