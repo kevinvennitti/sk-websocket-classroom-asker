@@ -1,0 +1,8 @@
+// Config file sample.
+// Copy it to config.js
+
+module.exports = {
+// List of student project group
+ studentsGroupList: ["groupe-C1", "groupe-C2", "groupe-C3", "groupe-C4", "groupe-C5", "groupe-C6", 
+ "groupe-D1", "groupe-D2", "groupe-D3", "groupe-D4", "groupe-D5", "groupe-D6" ]
+};

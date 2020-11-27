@@ -7,12 +7,13 @@ $(function(){
       $('#login-container').addClass('wrong');
     } else {
       $('#login-container').removeClass('wrong').addClass('hide');
+      // Send pseudo to server, to associate with socketId
+      //socket.emit('toserver/userPseudo', { pseudo: $('[name="pseudo"]').val() });
     }
   });
 
   socket.on('toclient/set/group', function (data) {
     currentGroup = data.group;
-    console.log(currentGroup);
     setGroup();
   });
 
@@ -27,20 +28,26 @@ $(function(){
 
 
   $(document).on('click', '.field', function(){
-    const value = $(this).find('.field-value').text().trim();
 
-    socket.emit('toserver/userChoice', {
-      value: value,
-      pseudo: $('[name="pseudo"]').val()
-    })
+    if ( !$(this).hasClass('button-disabled') ) {
+      const value = $(this).find('.field-value').text().trim();
+      socket.emit('toserver/userChoice', {
+        value: value,
+        pseudo: $('[name="pseudo"]').val()
+      });
+     disableVote();
+    }
+
   });
-
 
 
   function setGroup() {
     if (currentGroup.fields == undefined) return false;
 
     $('.group').empty();
+    let questionDOM = $('#clones .question').clone();
+    questionDOM.find('.question-value').text(currentGroup.question);
+    questionDOM.appendTo($('.group'));
 
     currentGroup.fields.forEach(function(field){
       // TODO : compute snippet/field
@@ -50,5 +57,14 @@ $(function(){
         fieldDOM.appendTo($('.group'));
       }
     });
+    enableVote();
+  }
+
+  function disableVote() {
+    $('.field').addClass('button-disabled');
+  }
+
+  function enableVote() {
+    $('.field').removeClass('button-disabled');
   }
 });

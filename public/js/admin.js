@@ -16,6 +16,12 @@ $(function(){
     const prop = $(this).data('prop') || null;
     const value = $(this).data('value') || null;
 
+    // The current group is not anymore visible from client
+    // So remove the "published class"
+    if (emit == 'client/clear') {
+      $('[data-send-group]').removeClass('is-current');
+    }
+
     socket.emit('admin/'+emit, {
       [prop]: value
     });
@@ -24,6 +30,7 @@ $(function(){
   $(document).on('click', '[data-add-group]', function(){
     const newGroup = {
       id: Date.now(),
+      question: "Pourquoi ?",
       fields: [
         { type: "button", value: "Encore ?!" },
         { type: "button", value: "Eh oui…!" }
@@ -68,11 +75,24 @@ $(function(){
 
     saveAllGroups();
   });
+
+  // Select student group name
+  $(document).on('click', '#studentGroupName', function(){
+    var groupName = $(this).val();
+    socket.emit('admin/set/studentGroupName', {
+      groupName: groupName
+    }); 
+    // Desactivate all group
+    $('[data-send-group]').removeClass('is-current'); 
+  });
 });
 
 function addLogGroup(group) {
   let logGroup = $('<div class="log-group"></div>');
   let logGroupHeader = $('<div class="log-group-header"></div>');
+  let question = group.find('.question-value').text().trim();
+  let logGroupQuestion = $('<div class="log-group-header-question"><div class="log-group-header-question-value">' + question + '</div></div>');
+  logGroupHeader.append(logGroupQuestion);
 
   group.find('.field').each(function(){
     let value = $(this).find('.field-value').text().trim();
@@ -142,14 +162,6 @@ function sendGroup(group) {
   $("#diff_"+groupId).addClass('is-current');
 }
 
-
-
-
-
-
-
-
-
 function saveAllGroups() {
   const groups = $('[data-content-scope] .group');
 
@@ -158,9 +170,11 @@ function saveAllGroups() {
   groups.each(function(){
     const group = $(this);
     const fields = group.find('.field');
+    const question = group.find('.question-value').text().trim();
 
     let groupData = {
       id: group.data('group-id'),
+      question: question,
       fields: []
     };
 
@@ -180,9 +194,10 @@ function saveAllGroups() {
     groupsData.push(groupData);
   });
 
-  console.log(groupsData);
-
+  let studentGroupName = $('#studentGroupName').val();
+    console.log(studentGroupName);
   socket.emit('admin/saveAllGroups', {
-    groups: groupsData
+    groups: groupsData, 
+    studentGroupName: studentGroupName
   });
 }

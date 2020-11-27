@@ -37,6 +37,16 @@
           <!-- <div class="button button-small" data-emit="client/hide">Client : hide</div> -->
           <br>
           <br>
+          <div class="button button-small">
+            Groupe projet évalué : 
+            <select id="studentGroupName">
+            <% studentsGroupList.forEach(function(groupName) { %>
+              <option value="<%- groupName %>"><%- groupName %></option>
+            <% }); %>
+            </select>
+          </div>
+          <br>
+          <br>
           <div class="button button-small" data-save-groups>Enregistrer le back-office</div>
         </div>
 

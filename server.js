@@ -1,9 +1,13 @@
 /*
 @TODO :
-- afficher la question dans chaque groupe
 - distinguer les réponses multiples des réponses uniques
-- page récap des questions/réponses
+  => Pour l'instant c'est bloqué sur des réponses uniques
+  Peut-être faut-il ajouter un paramètre sur la question pour déterminer si la réponse peut êêtre multiple ou pas.
+- page récap des questions/réponses avec des stats ?
+- Assurer la cohérence entre pseudo et socketId
 */
+
+const GLOBAL_CONFIG = require('./config/config.js');
 
 const express = require('express');
 const app = express();
@@ -13,13 +17,18 @@ const io = require('socket.io')(server);
 const fs = require('fs');
 const bodyParser = require('body-parser')
 
-const groupName = "groupe-C";
+// the selected group of student (to be evaluated by peers)
+// By default the first element of the list above.
+let groupName = GLOBAL_CONFIG.studentsGroupList[0];
+
+let userList = [];
+
 let GROUPS = [];
 
 getGroupsFromJson();
 
 let currentGroup = [];
-let responses = {groupId : 0, data : [] };
+let responses = {groupId : 0, question : "", data : [] };
 let respIndex = 0;
 
 server.listen(3000);
@@ -28,9 +37,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-
-
-
 
 app.get('/', function (req, res) {
   res.render('index');
@@ -42,7 +48,8 @@ app.get('/live', function (req, res) {
 
 app.get('/admin', function (req, res) {
   res.render('admin', {
-    groups: GROUPS
+    groups: GROUPS,
+    studentsGroupList: GLOBAL_CONFIG.studentsGroupList
   });
 });
 
@@ -59,8 +66,11 @@ app.post('/snippet/field', function (req, res) {
 
 
 io.on('connection', function (socket) {
-  console.log('New client connected', socket.id);
-  console.log(currentGroup);
+  console.log('New client connected : ', socket.id);
+  // keep this connection in a list
+//  userList.push({id: socket.id, pseudo: ""});
+  userList.push(socket.id);
+  console.log(userList.length, "clients connected.");
 
   socket.emit('toclient/set/group', {
     group: currentGroup
@@ -75,8 +85,7 @@ io.on('connection', function (socket) {
 
     setCurrentGroupByGroupId(data.groupId);
 
-    console.log(currentGroup);
-    responses = {groupId : currentGroup.id, data : [] };
+    responses = {groupId : currentGroup.id, question: currentGroup.question, data : [] };
     respIndex = 0;
 
     io.sockets.emit('toclient/set/group', {
@@ -85,6 +94,18 @@ io.on('connection', function (socket) {
     io.sockets.emit('tolive/set/group', {
       group: currentGroup
     });
+  });
+
+  // Setting group of students to be evaluated
+  socket.on('admin/set/studentGroupName', function (data) {
+    // If there was responses sate to Json file
+    if (responses.data.length > 0) {
+      saveResponsesInJson();
+    }
+    console.log("New project group set : ", data.groupName);
+    groupName = data.groupName;
+    // Clear clients when changing
+    io.sockets.emit('toclient/clear');
   });
 
   // Admin : refresh client
@@ -103,20 +124,63 @@ io.on('connection', function (socket) {
     saveGroupsInJson();
   });
 
-
   // Client : user choice
   socket.on('toserver/userChoice', function (data) {
-    responses.data[respIndex] = data;
-    respIndex++;
-    io.sockets.emit('toadmin/userChoice', data);
-    io.sockets.emit('tolive/userChoice', data);
+    data.userId = socket.id;
+    let alreadySent = responses.data.filter(r => r.userId == data.userId);
+    // Only on vote per User.
+    if ( alreadySent[0] == undefined ) {
+      responses.data[respIndex] = data;
+      respIndex++;
+      io.sockets.emit('toadmin/userChoice', data);
+      io.sockets.emit('tolive/userChoice', data);
+    } 
   });
-});
 
+  // Client pseudo
+  /*
+  socket.on('toserver/userPseudo', function(data) {
+    let userset = false;
+    // verify that the user already exists
+    userList.forEach(function(u) {
+      if (u.pseudo == data.pseudo) {
+        u.id = socket.id;
+        console.log(data.pseudo + " is back ! ("+socket.id+")");
+        userset = true;
+        return false;
+      }
+    });
+    if (!userset) {
+      userList.forEach(function(u) {
+        if (u.id == socket.id) {
+          u.pseudo = data.pseudo;
+          console.log(data.pseudo + " is a new user ! ("+socket.id+")");
+          return false;
+        }
+      });
+    }
+    console.log(userList);
+  });
+
+  socket.on('disconnect', function() {    
+    userList.forEach(function(u) {
+      // clean array
+      if (u.id == "" && u.pseudo == ""){
+
+      }
+      if (u.id == socket.id) {
+        u.id = "";
+        console.log(u.pseudo + " has gone !");
+        return false;
+      }
+    });
+    console.log(userList);
+  });
+  */
+});
 
 function setCurrentGroupByGroupId(groupId) {
   GROUPS.forEach(group => {
-    console.log(group);
     if (group.id == groupId) {
       currentGroup = group;
       return;
@@ -132,8 +196,6 @@ function getGroupsFromJson() {
     }
 
     data = JSON.parse(data);
-    console.log(data);
-
     GROUPS = data.groups;
   });
 }
@@ -142,15 +204,13 @@ function getGroupsFromJson() {
 function saveGroupsInJson() {
   let json = JSON.stringify({ "groups": GROUPS }, null, 2);
 
-  console.log(json);
-
   fs.writeFile("data/groups.json", json, 'utf8', function (err) {
     if (err) {
       console.log("Error writing to JSON file");
       return console.log(err);
     }
 
-    console.log("JSON saved.");
+    console.log("Back-office saved.");
   });
 
 }
@@ -159,15 +219,13 @@ function saveResponsesInJson() {
   let filename = "data/" + groupName + "-" + responses.groupId + ".json";
   let json = JSON.stringify(responses, null, 2);
 
-  console.log(json);
-
   fs.writeFile(filename, json, 'utf8', function (err) {
     if (err) {
       console.log("Error writing to JSON file");
       return console.log(err);
     }
 
-    console.log("JSON Responses saved for "+ responses.groupId +".");
+    console.log("Responses to the question ''", responses.question , "' saved in ", filename);
   });
 
 }

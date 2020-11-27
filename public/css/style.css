@@ -86,7 +86,7 @@ body {
   padding: 0;
 }
 
-.field {
+.field, .question {
   /* flex:1; */
   background: #ffffff;
   text-align: center;
@@ -107,6 +107,13 @@ body {
   overflow: visible;
 }
 
+.question {
+  padding: 10px 10px;
+  margin-bottom:30px;
+  background: gray;
+  color: white;
+}
+
 .button-small {
   background: #F7CE4C;
   border-radius: 50px;
@@ -121,10 +128,20 @@ body {
   margin-top:0;
 }
 
+.button-small select {
+  background: #F7CE4C;
+  cursor: pointer;
+  text-align: center;
+  color: black;
+  padding: 5px 5px;
+  border: solid 1px black;
+  box-shadow: 0 1px 0 black;
+  margin-top:0;
+ }
+
 [data-add-field] {
   margin: 0 auto 0px;
 }
-
 
 [data-send-group] {
   background: #F7CE4C;
@@ -144,6 +161,11 @@ body {
   margin-top:0;
 }
 
+.button-disabled {
+  cursor: not-allowed;
+  background: gray;
+}
+
 [data-send-group].is-current {
   background:#00CC76;
 }
@@ -159,6 +181,8 @@ body {
 }
 
 .field-value {flex: 1;font-size: 32px;line-height: 1;outline: none;}
+
+.question-value {flex: 1;font-size: 32px;line-height: 1;outline: none;}
 
 .field-remove {
   position:absolute;
@@ -304,7 +328,7 @@ body {
 
 .log-group-header {display: flex;flex-wrap: wrap;}
 
-.log-group-header-field {
+.log-group-header-field, .log-group-header-question {
     display: flex;
     background: white;
     border: solid 3px black;
@@ -317,6 +341,14 @@ body {
     color: black;
     margin-bottom: 7px;
 }
+
+.log-group-header-question {
+      color: white;
+      background: gray;
+      width: 100%;
+}
+
+.log-group-header-question-value {}
 
 .log-group-header-field-value {}
 
