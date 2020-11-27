@@ -66,11 +66,11 @@ app.post('/snippet/field', function (req, res) {
 
 
 io.on('connection', function (socket) {
-  console.log('New client connected', socket.id);
+  console.log('New client connected : ', socket.id);
   // keep this connection in a list
 //  userList.push({id: socket.id, pseudo: ""});
   userList.push(socket.id);
-  console.log(userList);
+  console.log(userList.length, "clients connected.");
 
   socket.emit('toclient/set/group', {
     group: currentGroup
@@ -210,7 +210,7 @@ function saveGroupsInJson() {
       return console.log(err);
     }
 
-    console.log("JSON saved.");
+    console.log("Back-office saved.");
   });
 
 }
@@ -225,7 +225,7 @@ function saveResponsesInJson() {
       return console.log(err);
     }
 
-    console.log("JSON Responses saved for "+ responses.groupId +".");
+    console.log("Responses to the question ''", responses.question , "' saved in ", filename);
   });
 
 }
