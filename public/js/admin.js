@@ -81,7 +81,9 @@ $(function(){
     var groupName = $(this).val();
     socket.emit('admin/set/studentGroupName', {
       groupName: groupName
-    });  
+    }); 
+    // Desactivate all group
+    $('[data-send-group]').removeClass('is-current'); 
   });
 });
 
